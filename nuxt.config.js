@@ -40,10 +40,41 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    '@nuxtjs/auth-next'
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  axios: {
+    baseURL: 'http://localhost:8000/',
+    credentials: true,
+    proxy : true
+  },
+
+  auth: {
+    strategies: {
+      'laravel': {
+        provider: 'laravel/jwt',
+        url: 'http://localhost:8000',
+        endpoints: {
+          login :{
+            url : '/api/login',
+            method: "post",
+          },
+          register:{
+            url: '/api/register',
+            method: "post",
+          }
+        },
+        token: {
+          property: 'access_token',
+          maxAge: 60 * 60
+        },
+        refreshToken: {
+          maxAge: 20160 * 60
+        },
+      },
+    }
+  },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
