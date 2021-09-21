@@ -53,7 +53,9 @@
                         password: this.password
                     }
                 });
-                this.$router.push('/register')
+                this.$auth.isAuthenticated = true;
+                this.$router.push('/profile')
+                
             } catch (e) {
                 this.isLoading = false
                 this.errors = e.response.data

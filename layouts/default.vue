@@ -7,22 +7,62 @@
       fixed
       app
     >
-      <v-list>
-        <v-list-item
-          v-for="(item, i) in items"
-          :key="i"
-          :to="item.to"
-          router
-          exact
-        >
+      <v-list v-if="!this.$auth.loggedIn">
+        <v-list-item :to="'/'">
           <v-list-item-action>
-            <v-icon>{{ item.icon }}</v-icon>
+            <v-icon>mdi-login</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title v-text="item.title" />
+            <v-list-item-title  v-text="'Login'"/>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item :to="'/register'">
+          <v-list-item-action>
+            <v-icon>mdi-account-plus</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title  v-text="'Register'"/>
+          </v-list-item-content>
+        </v-list-item>
+
+      </v-list>
+      
+      <v-list v-else>
+         <v-list-item :to="'/profile'">
+          <v-list-item-action>
+            <v-icon>mdi-account</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title  v-text="'Profile'"/>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item :to="'/buildings'" >
+          <v-list-item-action>
+            <v-icon>mdi-city</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title  v-text="'Buildings'"/>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item :to="'/mybuilding'" >
+          <v-list-item-action>
+            <v-icon>mdi-office-building</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title  v-text="'My Building'"/>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item @click="logout" >
+          <v-list-item-action>
+            <v-icon>mdi-close-circle</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title  v-text="'Logout'"/>
           </v-list-item-content>
         </v-list-item>
       </v-list>
+
     </v-navigation-drawer>
     <v-app-bar
       :clipped-left="clipped"
@@ -59,22 +99,16 @@ export default {
       clipped: false,
       drawer: false,
       fixed: false,
-      items: [
-        {
-          icon: 'mdi-login',
-          title: 'Login',
-          to: '/'
-        },
-        {
-          icon: 'mdi-account-plus',
-          title: 'Register',
-          to: '/register'
-        },
-      ],
       miniVariant: false,
       right: true,
       rightDrawer: false,
       title : 'Front'
+    }
+  },
+  methods: {
+    async logout() {
+      await this.$auth.logout()
+        this.$router.push('/')
     }
   }
 }

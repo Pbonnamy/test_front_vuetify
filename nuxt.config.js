@@ -3,8 +3,8 @@ import colors from 'vuetify/es5/util/colors'
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - front',
-    title: 'front',
+    titleTemplate: '%s',
+    title: 'Front',
     htmlAttrs: {
       lang: 'en'
     },
@@ -59,6 +59,11 @@ export default {
           login :{
             url : '/api/login',
             method: "post",
+            propertyName: 'token'
+          },
+          logout: { 
+            url: 'logout', 
+            method: 'post' 
           },
           register:{
             url: '/api/register',
@@ -67,7 +72,7 @@ export default {
         },
         token: {
           property: 'access_token',
-          maxAge: 60 * 60
+          maxAge: 60 * 60 * 24
         },
         refreshToken: {
           maxAge: 20160 * 60

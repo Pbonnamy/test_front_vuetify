@@ -46,63 +46,78 @@
                 </v-row>
                 <v-row>
                     <v-col cols="12 mt-6">
-                        <v-btn block color="success" @click="register" v-bind:loading="isLoading ? true : false ">
-                        Register
+                        <v-btn block color="success" @click="update" v-bind:loading="isLoading ? true : false ">
+                        Update
                         </v-btn>
                     </v-col>
                 </v-row>
             </v-form>
         </v-card-text>
+
+        <v-snackbar
+        v-model="snackbar"
+        :timeout="timeout"
+        color="green">
+        {{ text }}
+        </v-snackbar>
+
     </v-card>
 </template>
 
 <script>
-  export default {
-    data: () => ({
-      name: '',
-      email: '',
-      password :'',
-      phone: '',
-      address: '',
-      city: '',
-      zip: '',
-      country: '',
-      bio: '',
-      show:false,
-      errors: null,
-      isLoading: false,
-    }),
-    methods: {
-        async register () {
-            this.isLoading = true
-            this.errors = null
+    import { mapGetters } from 'vuex'
 
-            let axiosConfig = {headers: {'Content-Type': 'application/json'}};
-            let axiosData = 
-              JSON.stringify({
-                name: this.name,
-                email: this.email,
-                password : this.password,
-                phone: this.phone,
-                address: this.address,
-                city: this.city,
-                zipcode: this.zip,
-                country: this.country,
-                bio: this.bio,
-            });
+    export default {
+        data(){
+            let user = this.$store.getters.loggedUser;
+            return{
+                name: user.name,
+                email: user.email,
+                password : '',
+                phone: user.phone,
+                address: user.address,
+                city: user.city,
+                zip: user.zipcode,
+                country: user.country,
+                bio: user.bio,
+                show:false,
+                errors: null,
+                isLoading: false,
+                snackbar: false,
+                text: 'Profil modifié',
+                timeout: 2000,
+            }
+        },
 
-            await 
-            this.$axios.post('http://localhost:8000/api/register', axiosData, axiosConfig)
-            .then(response => { 
-              this.$router.push('/');
-            })
-            .catch(error => {
-                this.errors = error.response.data;
+        methods: {
+            async update () {
+                this.isLoading = true
+                this.errors = null
+                
+                let axiosConfig = {headers: {'Content-Type': 'application/json'}};
+                let axiosData = 
+                JSON.stringify({
+                    name: this.name,
+                    email: this.email,
+                    password : this.password,
+                    phone: this.phone,
+                    address: this.address,
+                    city: this.city,
+                    zipcode: this.zip,
+                    country: this.country,
+                    bio: this.bio,
+                });
+
+                await 
+                this.$axios.patch('http://localhost:8000/api/user/'+this.$store.getters.loggedUser.id, axiosData, axiosConfig)
+                .then(response => {
+                    this.snackbar = true;
+                })
+                .catch(error => {
+                    this.errors = error.response.data;
+                });
                 this.isLoading = false;
-            });
-
-            
-        }
+            }
+        },
     }
-  }
 </script>
