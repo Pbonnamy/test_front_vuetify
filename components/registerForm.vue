@@ -58,20 +58,24 @@
 
 <script>
   export default {
-    data: () => ({
-      name: '',
-      email: '',
-      password :'',
-      phone: '',
-      address: '',
-      city: '',
-      zip: '',
-      country: '',
-      bio: '',
-      show:false,
-      errors: null,
-      isLoading: false,
-    }),
+    data(){
+        this.$store.commit('updtTitle', 'Register')
+        return{
+            name: '',
+            email: '',
+            password :'',
+            phone: '',
+            address: '',
+            city: '',
+            zip: '',
+            country: '',
+            bio: '',
+            show:false,
+            errors: null,
+            isLoading: false,
+        }
+
+    },
     methods: {
         async register () {
             this.isLoading = true

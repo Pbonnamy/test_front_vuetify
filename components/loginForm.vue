@@ -6,10 +6,12 @@
                     <v-col cols="12">
                         <v-text-field label="Email"
                         v-model="email"
+                        v-on:keyup.enter="onEnter"
                         :append-icon="'mdi-email'"></v-text-field>
                         <p class="red--text" v-if="errors && errors.email">{{ errors.email[0] }}</p>
 
                         <v-text-field label="Password"
+                        v-on:keyup.enter="onEnter"
                         v-model="password"
                         :append-icon="show ?'mdi-eye':'mdi-eye-off'"
                         @click:append="() => (show = !show)"
@@ -34,15 +36,20 @@
 <script>
   export default {
     data() {
-      return{
-        show:false,
-        errors: null,
-        isLoading: false,
-        email: '',
-        password: ''
-      }
+        this.$store.commit('updtTitle', 'Login')
+        return{
+            show:false,
+            errors: null,
+            isLoading: false,
+            email: '',
+            password: ''
+        }
     },
+
     methods: {
+        onEnter: function() {
+            this.login();
+        },
         async login () {
             this.isLoading = true
             this.errors = null

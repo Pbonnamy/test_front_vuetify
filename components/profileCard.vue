@@ -69,6 +69,7 @@
 
     export default {
         data(){
+            this.$store.commit('updtTitle', 'Profile')
             let user = this.$store.getters.loggedUser;
             return{
                 name: user.name,

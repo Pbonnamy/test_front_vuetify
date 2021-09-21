@@ -1,7 +1,8 @@
 <template>
     <div class="justify-center">
-        <v-row>
-            <v-select v-if="loaded" v-model="currentItem" :items="select" @change="onChange($event)" item-text="text" item-value="value" class="mt-6"
+        <v-row v-if="loaded">
+            <v-icon class="align-center mt-3 mr-3">mdi-account-cog</v-icon>
+            <v-select v-model="currentItem" :items="select" @change="onChange($event)" item-text="text" item-value="value" class="mt-6"
            label="Select account"></v-select>
         </v-row>
         <v-row>
@@ -12,9 +13,9 @@
 
                     </v-card-title>
                     <v-card-text class="d-flex justify-space-between">
-                        <div class="mt-2 "><p class="font-weight-bold mb-0">Address : </p>{{address}}</div>
-                        <div class="mt-2 "><p class="font-weight-bold mb-0">Code Soc : </p>{{codeSoc}}</div>
-                        <div class="mt-2 "><p class="font-weight-bold mb-0">Code Im : </p>{{codeIm}}</div>
+                        <div class="mt-2 "><p class="font-weight-bold mb-0">Address</p><br>{{address}}</div>
+                        <div class="mt-2 "><p class="font-weight-bold mb-0">Code Soc</p><br>{{codeSoc}}</div>
+                        <div class="mt-2 "><p class="font-weight-bold mb-0">Code Im</p><br>{{codeIm}}</div>
                     </v-card-text>
                 </v-card>
             </v-col>
@@ -25,6 +26,7 @@
 <script>
 export default {
     data(){
+        this.$store.commit('updtTitle', 'My Building')
         return {
             select: [],
             loaded: false,
@@ -42,15 +44,17 @@ export default {
             let i;
             for (i = 0; i < this.items.length; i++) {
                 if(this.items[i].id==event){
+                    this.showBuild = true;
+                    this.name = this.items[i].name;
+                    this.address = this.items[i].address;
+                    this.codeSoc = this.items[i].code_soc;
+                    this.codeIm = this.items[i].code_im;
+                    this.$auth.$storage.setLocalStorage('selected', event);
+                    this.currentItem = this.$auth.$storage.getLocalStorage('selected');
                     break;
                 }
             }
-            this.showBuild = true;
-            this.name = this.items[i].name;
-            this.address = this.items[i].address;
-            this.codeSoc = this.items[i].code_soc;
-            this.codeIm = this.items[i].code_im;
-            this.$auth.$storage.setLocalStorage('selected', event);
+            
         }
     },
     mounted (){
@@ -70,8 +74,7 @@ export default {
 
             this.items = result;
 
-            this.currentItem = this.$auth.$storage.getLocalStorage('selected');
-            this.onChange(this.currentItem);
+            this.onChange(this.$auth.$storage.getLocalStorage('selected'));
 
             this.loaded =true;
 

@@ -31,7 +31,7 @@
       <v-list v-else>
          <v-list-item :to="'/profile'">
           <v-list-item-action>
-            <v-icon>mdi-account</v-icon>
+            <v-icon>mdi-account-edit</v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title  v-text="'Profile'"/>
@@ -45,7 +45,7 @@
             <v-list-item-title  v-text="'Buildings'"/>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item :to="'/mybuilding'" >
+        <v-list-item :to="'/my_building'" >
           <v-list-item-action>
             <v-icon>mdi-office-building</v-icon>
           </v-list-item-action>
@@ -76,7 +76,7 @@
       >
         <v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon>
       </v-btn>
-      <v-toolbar-title v-text="title" />
+      <v-toolbar-title v-text="this.$store.getters.getTitle" />
       <v-spacer />
     </v-app-bar>
     <v-main>
@@ -102,7 +102,6 @@ export default {
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title : 'Front'
     }
   },
   methods: {

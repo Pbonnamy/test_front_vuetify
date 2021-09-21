@@ -20,9 +20,13 @@
 
 <script>
 export default {
-    data: () => ({
-        buildings : ''
-    }),
+    data(){
+        this.$store.commit('updtTitle', 'Buildings')
+        return{
+            buildings : ''
+        }
+
+    },
     mounted (){
         this.$axios.get('http://localhost:8000/api/immeuble/read')
         .then(response => { 
