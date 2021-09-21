@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid>
+  <v-container>
     <v-layout class="align-center justify-center">
       <v-col cols="lg-8 sm-12">
         <profileCard />

@@ -80,9 +80,9 @@
       <v-spacer />
     </v-app-bar>
     <v-main>
-      <v-container fill-height>
+
         <Nuxt />
-      </v-container>
+
     </v-main>
     <v-footer
       app

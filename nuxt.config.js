@@ -50,6 +50,10 @@ export default {
     proxy : true
   },
 
+  router: {
+    middleware: ['auth']
+  },
+
   auth: {
     strategies: {
       'laravel': {
@@ -78,7 +82,10 @@ export default {
           maxAge: 20160 * 60
         },
       },
-    }
+    },
+    redirect :{
+      login : '/'
+    },
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
